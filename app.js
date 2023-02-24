@@ -48,6 +48,21 @@ app.get('/places/:latitude?/:longitude?/:distance?/:search?', (req, res) => {
   )
 })
 
+app.get('/place/:id/img', (req, res) => {
+  const placeId = Number(req.params.id)
+
+  let sql = `SELECT img.id, img.path FROM img
+    JOIN img_places_junction ON img.id = img_places_junction.img_id
+    JOIN places ON places.id = img_places_junction.place_id
+    WHERE places.id = ?
+  `
+
+  db.query(sql, [placeId], (err, queryResult) => {
+    if (err) throw err
+    res.send(queryResult)
+  })
+})
+
 app.listen(port, () => {
   console.log(`Nomade API is running on http://localhost:${port}`)
 })
