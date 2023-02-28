@@ -1,0 +1,10 @@
+{
+    "development": {
+      "username": "nomade_db",
+      "password": "nomade6890",
+      "database": "nomade",
+      "host": "127.0.0.1",
+      "dialect": "mysql",
+      "port": 3306
+    }
+}
