@@ -7,6 +7,7 @@ const port = process.env.PORT || 8000
 // const db = require('./mysql')
 const { sequelize, Img, Place } = require('./src/database')
 const { Op } = require('sequelize')
+const { handleSearchString } = require('./src/lib/common')
 
 app
   .use(cors())
@@ -16,7 +17,23 @@ app.get('/places/:latitude?/:longitude?/:distance?/:search?', (req, res) => {
   const currentLatitude = Number(req.params.latitude) || null
   const currentLongitude = Number(req.params.longitude) || null
   const requiredDistance = Number(req.params.distance) || 999999999999
-  const searchQuery = req.params.search || ''
+  const searchQuery = handleSearchString(req.params.search)
+
+  let searchCriteria
+  let filterCriteria
+  if (searchQuery) {
+    searchCriteria = searchQuery.searchQueryArray.map((query) => ({
+      name: {
+        [Op.like]: `%${query}%`
+      }
+    }))
+    filterCriteria = searchQuery.keywords.map((keyword) => ({
+      [keyword.column]: {
+        [Op[keyword.operation]]: keyword.value
+      }
+    }))
+  }
+  console.log('TEST', [ ...searchCriteria, ...filterCriteria])
 
   Place.findAll({
     attributes: {
@@ -28,16 +45,14 @@ app.get('/places/:latitude?/:longitude?/:distance?/:search?', (req, res) => {
       ]
     },
     where: {
-      name: {
-        [Op.like]: `%${searchQuery}%`
-      }
+      [Op.or]: [ ...searchCriteria, ...filterCriteria]
     },
     having: sequelize.literal(`distance < ${requiredDistance}`),
     order: sequelize.literal('distance')
   }).then(places => {
     res.send(places)
   }).catch(err => {
-    res.end(err)
+    console.error(err)
   })
 })
 
@@ -51,7 +66,7 @@ app.get('/place/:id/img', (req, res) => {
     res.send(imgs)
   }).catch(err => {
     console.error(err)
-    res.end(err)
+    console.error(err)
   });
 })
 
