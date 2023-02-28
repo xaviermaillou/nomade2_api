@@ -10,7 +10,17 @@ module.exports = {
             operation: 'eq',
             value: '1'
         },
+        'noisy': {
+            column: 'quiet',
+            operation: 'eq',
+            value: '0'
+        },
         'solo': {
+            column: 'solo',
+            operation: 'eq',
+            value: '1'
+        },
+        'alone': {
             column: 'solo',
             operation: 'eq',
             value: '1'

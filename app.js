@@ -45,7 +45,7 @@ app.get('/places/:latitude?/:longitude?/:distance?/:search?', (req, res) => {
       ]
     },
     where: {
-      [Op.or]: [ ...searchCriteria, ...filterCriteria]
+      [Op.or]: [ ...searchCriteria, {[Op.and]: [ ...filterCriteria ]} ],
     },
     having: sequelize.literal(`distance < ${requiredDistance}`),
     order: sequelize.literal('distance')
