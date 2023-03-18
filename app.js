@@ -4,7 +4,8 @@ const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 8000
 
-// const db = require('./mysql')
+const auth = require('./src/firebase')
+
 const { sequelize, Img, Place } = require('./src/database')
 const { Op } = require('sequelize')
 const { handleSearchString } = require('./src/lib/common')
@@ -13,11 +14,21 @@ app
   .use(cors())
   .use(express.json())
 
-app.get('/places/:latitude?/:longitude?/:distance?/:search?', (req, res) => {
+const checkAuthToken = async (token) => {
+  const result = await auth.verifyIdToken(token)
+  return result
+}
+
+app.get('/places/:latitude?/:longitude?/:distance?/:search?', async (req, res) => {
   const currentLatitude = Number(req.params.latitude) || null
   const currentLongitude = Number(req.params.longitude) || null
   const requiredDistance = Number(req.params.distance) || 999999999999
   const searchQuery = handleSearchString(req.params.search)
+
+  const authToken = req.headers.authorization?.split(' ')[1]
+  if (authToken) {
+    const decodedToken = await checkAuthToken(authToken)
+  }
 
   let searchCriteria
   let filterCriteria
@@ -33,7 +44,6 @@ app.get('/places/:latitude?/:longitude?/:distance?/:search?', (req, res) => {
       }
     }))
   }
-  console.log('TEST', [ ...searchCriteria, ...filterCriteria])
 
   Place.findAll({
     attributes: {

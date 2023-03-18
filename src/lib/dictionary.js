@@ -10,6 +10,11 @@ module.exports = {
             operation: 'eq',
             value: '1'
         },
+        'calm': {
+            column: 'quiet',
+            operation: 'eq',
+            value: '1'
+        },
         'noisy': {
             column: 'quiet',
             operation: 'eq',
@@ -53,7 +58,12 @@ module.exports = {
         'wifi': {
             column: 'wifi',
             operation: 'gt',
-            value: ' > 2'
+            value: '2'
+        },
+        'connection': {
+            column: 'wifi',
+            operation: 'gt',
+            value: '2'
         },
         'outlet': {
             column: 'outlet',
