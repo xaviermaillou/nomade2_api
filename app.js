@@ -6,9 +6,9 @@ const port = process.env.PORT || 8000
 
 const auth = require('./src/firebase')
 
-const { sequelize, Img, Place } = require('./src/database')
+const { sequelize, Img, Place, CoffeeshopDetail } = require('./src/database')
 const { Op } = require('sequelize')
-const { handleSearchString } = require('./src/lib/common')
+const { handleSearchString, getAddress } = require('./src/lib/common')
 
 app
   .use(cors())
@@ -76,6 +76,18 @@ app.get('/place/:id/img', (req, res) => {
     res.send(imgs)
   }).catch(err => {
     console.error(err)
+  });
+})
+
+app.get('/place/:id/details', (req, res) => {
+  const placeId = Number(req.params.id)
+
+  CoffeeshopDetail.findAll({
+    attributes: ['id', 'gluten_free_food', 'vegetal_milk', 'vegan_food', 'decaf'],
+    where: {place_id: placeId}
+  }).then(details => {
+    res.send(details)
+  }).catch(err => {
     console.error(err)
   });
 })

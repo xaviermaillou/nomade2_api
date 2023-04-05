@@ -7,53 +7,23 @@ module.exports = {
         },
         'quiet': {
             column: 'quiet',
-            operation: 'eq',
-            value: '1'
+            operation: 'gt',
+            value: '2'
         },
         'calm': {
             column: 'quiet',
-            operation: 'eq',
-            value: '1'
+            operation: 'gt',
+            value: '2'
         },
         'noisy': {
             column: 'quiet',
-            operation: 'eq',
-            value: '0'
+            operation: 'lt',
+            value: '3'
         },
-        'solo': {
-            column: 'solo',
-            operation: 'eq',
-            value: '1'
-        },
-        'alone': {
-            column: 'solo',
-            operation: 'eq',
-            value: '1'
-        },
-        'group': {
-            column: 'gathering',
-            operation: 'eq',
-            value: '1'
-        },
-        'gather': {
-            column: 'gathering',
-            operation: 'eq',
-            value: '1'
-        },
-        'gathering': {
-            column: 'gathering',
-            operation: 'eq',
-            value: '1'
-        },
-        'meeting': {
-            column: 'gathering',
-            operation: 'eq',
-            value: '1'
-        },
-        'team': {
-            column: 'gathering',
-            operation: 'eq',
-            value: '1'
+        'busy': {
+            column: 'quiet',
+            operation: 'lt',
+            value: '3'
         },
         'wifi': {
             column: 'wifi',
@@ -67,13 +37,13 @@ module.exports = {
         },
         'outlet': {
             column: 'outlet',
-            operation: 'eq',
-            value: '1'
+            operation: 'gt',
+            value: '0'
         },
         'plug': {
             column: 'outlet',
-            operation: 'eq',
-            value: '1'
+            operation: 'gt',
+            value: '0'
         },
     }
 }

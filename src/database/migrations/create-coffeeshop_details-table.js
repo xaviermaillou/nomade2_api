@@ -7,9 +7,21 @@ module.exports = {
           primaryKey: true,
           autoIncrement: true
         },
-        path: {
-          type: Sequelize.STRING(255),
-          allowNull: false
+        gluten_free_food: {
+          type: Sequelize.BOOLEAN,
+          allowNull: true
+        },
+        vegetal_milk: {
+            type: Sequelize.BOOLEAN,
+            allowNull: true
+        },
+        vegan_food: {
+            type: Sequelize.BOOLEAN,
+            allowNull: true
+        },
+        decaf: {
+            type: Sequelize.BOOLEAN,
+            allowNull: true
         },
         place_id: {
           type: Sequelize.INTEGER,

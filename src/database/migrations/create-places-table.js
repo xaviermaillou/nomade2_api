@@ -19,20 +19,16 @@ module.exports = {
         type: Sequelize.DOUBLE,
         allowNull: false
       },
+      address: {
+        type: Sequelize.STRING(255),
+        allowNull: true
+      },
       type: {
         type: Sequelize.TINYINT,
         allowNull: true
       },
       quiet: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true
-      },
-      solo: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true
-      },
-      gathering: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.TINYINT,
         allowNull: true
       },
       wifi: {
@@ -40,7 +36,11 @@ module.exports = {
         allowNull: true
       },
       outlet: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.TINYINT,
+        allowNull: true
+      },
+      seats: {
+        type: Sequelize.TINYINT,
         allowNull: true
       },
       createdAt: {

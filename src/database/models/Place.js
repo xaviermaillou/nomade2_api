@@ -16,20 +16,16 @@ Place.init({
         type: DataTypes.DOUBLE,
         allowNull: false
     },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     type: {
         type: DataTypes.TINYINT,
         allowNull: true
     },
     quiet: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true
-    },
-    solo: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true
-    },
-    gathering: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.TINYINT,
         allowNull: true
     },
     wifi: {
@@ -37,7 +33,11 @@ Place.init({
         allowNull: true
     },
     outlet: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.TINYINT,
+        allowNull: true
+    },
+    seats: {
+        type: DataTypes.TINYINT,
         allowNull: true
     },
 }, {
