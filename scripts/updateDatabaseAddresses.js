@@ -9,7 +9,7 @@ Place.findAll().then(async (places) => {
             Place.update(
                 { address: address },
                 { where: { id: place.id } }
-            ).then(() => console.log('New address injected')).catch(err => console.error(err))
+            ).then(() => console.log('New address injected:', address)).catch(err => console.error(err))
         }
     }
 }).catch(err => {

@@ -21,6 +21,6 @@ module.exports = {
     },
     getAddress: async (latitude, longitude) => {
         const result = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoieGF2aWVyamVhbiIsImEiOiJjbGUzYXl1dXAwM2g5M25tcHBhcnowc3pmIn0.5AXUHhsjd3pfaGVQObJ72w`)
-        return result.data.features[0].properties.address
+        return result.data.features[0].properties.address || result.data.features[0].place_name
     }
 }
