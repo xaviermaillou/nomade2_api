@@ -1,6 +1,8 @@
 const sequelize = require('./config/sequelize')
+const User = require('./models/User')
 const Img = require('./models/Img')
 const Place = require('./models/Place')
 const CoffeeshopDetail = require('./models/CoffeeshopDetail')
+const PlaceUser = require('./models/PlaceUser')
 
-module.exports = { sequelize, Img, Place, CoffeeshopDetail }
+module.exports = { sequelize, User, Img, Place, CoffeeshopDetail, PlaceUser }

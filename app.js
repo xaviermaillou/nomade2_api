@@ -6,7 +6,7 @@ const port = process.env.PORT || 8000
 
 const auth = require('./src/firebase')
 
-const { sequelize, Img, Place, CoffeeshopDetail } = require('./src/database')
+const { sequelize, Img, Place, CoffeeshopDetail, PlaceUser } = require('./src/database')
 const { Op } = require('sequelize')
 const { handleSearchString, getAddress } = require('./src/lib/common')
 
@@ -25,10 +25,10 @@ app.get('/places/:latitude?/:longitude?/:distance?/:search?', async (req, res) =
   const requiredDistance = Number(req.params.distance) || 999999999999
   const searchQuery = handleSearchString(req.params.search)
 
-  const authToken = req.headers.authorization?.split(' ')[1]
+  /* const authToken = req.headers.authorization?.split(' ')[1]
   if (authToken) {
     const decodedToken = await checkAuthToken(authToken)
-  }
+  } */
 
   let searchCriteria
   let filterCriteria
@@ -90,6 +90,66 @@ app.get('/place/:id/details', (req, res) => {
   }).catch(err => {
     console.error(err)
   });
+})
+
+app.get('/place/:id/preferences/:userUid', (req, res) => {
+  const placeId = Number(req.params.id)
+  const userUid = String(req.params.userUid)
+
+  PlaceUser.findOne({
+    attributes: ['liked'],
+    where: {place_id: placeId, user_uid: userUid}
+  }).then(liked => {
+    res.send(liked)
+  }).catch(err => {
+    console.error(err)
+  });
+})
+
+app.post('/place/:id/preferences/:userUid', (req, res) => {
+  const placeId = Number(req.params.id)
+  const userUid = String(req.params.userUid)
+  const liked = req.body.body.liked
+
+  PlaceUser.create({
+    place_id: placeId,
+    user_uid: userUid,
+    liked: liked
+  }).then(result => {
+    res.send(result)
+  }).catch(err => {
+    console.error(err)
+  })
+})
+
+app.patch('/place/:id/preferences/:userUid', (req, res) => {
+  const placeId = Number(req.params.id)
+  const userUid = String(req.params.userUid)
+  const liked = req.body.body.liked
+
+  PlaceUser.update(
+    { liked },
+    {
+      where: { place_id: placeId, user_uid: userUid }
+    }
+  ).then(result => {
+    res.send(result)
+  }).catch(err => {
+    console.error(err)
+  })
+})
+
+app.delete('/place/:id/preferences/:userUid', (req, res) => {
+  const placeId = Number(req.params.id)
+  const userUid = String(req.params.userUid)
+
+  PlaceUser.destroy({
+    where: {place_id: placeId, user_uid: userUid}
+  }).then(status => {
+    res.status(204).send()
+  }).catch(err => {
+    console.error(err)
+  })
 })
 
 app.listen(port, () => {
