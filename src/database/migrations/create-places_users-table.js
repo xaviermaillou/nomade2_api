@@ -21,6 +21,10 @@ module.exports = {
             type: Sequelize.BOOLEAN,
             allowNull: false
         },
+        notes: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         createdAt: {
             type: Sequelize.DATE,
             allowNull: false,

@@ -14,10 +14,10 @@ app
   .use(cors())
   .use(express.json())
 
-const checkAuthToken = async (token) => {
+/* const checkAuthToken = async (token) => {
   const result = await auth.verifyIdToken(token)
   return result
-}
+} */
 
 app.get('/places/:latitude?/:longitude?/:distance?/:search?', async (req, res) => {
   const currentLatitude = Number(req.params.latitude) || null
@@ -92,29 +92,31 @@ app.get('/place/:id/details', (req, res) => {
   });
 })
 
-app.get('/place/:id/preferences/:userUid', (req, res) => {
+app.get('/place/:id/preferences/:uid', (req, res) => {
   const placeId = Number(req.params.id)
-  const userUid = String(req.params.userUid)
+  const userUid = String(req.params.uid)
 
   PlaceUser.findOne({
-    attributes: ['liked'],
+    attributes: ['liked', 'notes'],
     where: {place_id: placeId, user_uid: userUid}
-  }).then(liked => {
-    res.send(liked)
+  }).then(preferences => {
+    res.send(preferences)
   }).catch(err => {
     console.error(err)
   });
 })
 
-app.post('/place/:id/preferences/:userUid', (req, res) => {
+app.post('/place/:id/preferences/:uid', (req, res) => {
   const placeId = Number(req.params.id)
-  const userUid = String(req.params.userUid)
+  const userUid = String(req.params.uid)
   const liked = req.body.body.liked
+  const notes = req.body.body.notes
 
   PlaceUser.create({
     place_id: placeId,
     user_uid: userUid,
-    liked: liked
+    liked: liked,
+    notes: notes
   }).then(result => {
     res.send(result)
   }).catch(err => {
@@ -122,13 +124,14 @@ app.post('/place/:id/preferences/:userUid', (req, res) => {
   })
 })
 
-app.patch('/place/:id/preferences/:userUid', (req, res) => {
+app.patch('/place/:id/preferences/:uid', (req, res) => {
   const placeId = Number(req.params.id)
-  const userUid = String(req.params.userUid)
+  const userUid = String(req.params.uid)
   const liked = req.body.body.liked
+  const notes = req.body.body.notes
 
   PlaceUser.update(
-    { liked },
+    { liked, notes },
     {
       where: { place_id: placeId, user_uid: userUid }
     }
@@ -139,9 +142,9 @@ app.patch('/place/:id/preferences/:userUid', (req, res) => {
   })
 })
 
-app.delete('/place/:id/preferences/:userUid', (req, res) => {
+app.delete('/place/:id/preferences/:uid', (req, res) => {
   const placeId = Number(req.params.id)
-  const userUid = String(req.params.userUid)
+  const userUid = String(req.params.uid)
 
   PlaceUser.destroy({
     where: {place_id: placeId, user_uid: userUid}

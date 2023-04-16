@@ -25,6 +25,10 @@ PlaceUser.init({
     liked: {
         type: DataTypes.BOOLEAN,
         allowNull: true
+    },
+    notes: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     sequelize,
