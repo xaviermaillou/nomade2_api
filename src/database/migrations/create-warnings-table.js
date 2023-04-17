@@ -1,6 +1,6 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-      await queryInterface.createTable('places_users', {
+      await queryInterface.createTable('warnings', {
         place_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
@@ -17,11 +17,7 @@ module.exports = {
                 key: 'uid'
             }
         },
-        liked: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false
-        },
-        notes: {
+        message: {
             type: Sequelize.STRING,
             allowNull: false
         },
@@ -39,6 +35,6 @@ module.exports = {
     },
   
     down: async (queryInterface, Sequelize) => {
-      await queryInterface.dropTable('places_users');
+      await queryInterface.dropTable('warnings');
     }
   }

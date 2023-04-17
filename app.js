@@ -6,7 +6,7 @@ const port = process.env.PORT || 8000
 
 const auth = require('./src/firebase')
 
-const { sequelize, Img, Place, CoffeeshopDetail, PlaceUser } = require('./src/database')
+const { sequelize, Img, Place, CoffeeshopDetail, PlaceUser, Warning } = require('./src/database')
 const { Op } = require('sequelize')
 const { handleSearchString, getAddress } = require('./src/lib/common')
 
@@ -150,6 +150,22 @@ app.delete('/place/:id/preferences/:uid', (req, res) => {
     where: {place_id: placeId, user_uid: userUid}
   }).then(status => {
     res.status(204).send()
+  }).catch(err => {
+    console.error(err)
+  })
+})
+
+app.post('/place/:id/warning/:uid', (req, res) => {
+  const placeId = Number(req.params.id)
+  const userUid = String(req.params.uid)
+  const message = req.body.body.message
+
+  Warning.create({
+    place_id: placeId,
+    user_uid: userUid,
+    message: message
+  }).then(result => {
+    res.send(result)
   }).catch(err => {
     console.error(err)
   })
