@@ -112,13 +112,18 @@ app.post('/place/:id/preferences/:uid', (req, res) => {
   const liked = req.body.body.liked
   const notes = req.body.body.notes
 
+  const responseObject = {
+    placeId,
+    userUid,
+  }
+
   PlaceUser.create({
     place_id: placeId,
     user_uid: userUid,
     liked: liked,
     notes: notes
   }).then(result => {
-    res.send(result)
+    res.send(responseObject)
   }).catch(err => {
     console.error(err)
   })
@@ -130,13 +135,18 @@ app.patch('/place/:id/preferences/:uid', (req, res) => {
   const liked = req.body.body.liked
   const notes = req.body.body.notes
 
+  const responseObject = {
+    placeId,
+    userUid,
+  }
+
   PlaceUser.update(
     { liked, notes },
     {
       where: { place_id: placeId, user_uid: userUid }
     }
   ).then(result => {
-    res.send(result)
+    res.send(responseObject)
   }).catch(err => {
     console.error(err)
   })
@@ -146,10 +156,15 @@ app.delete('/place/:id/preferences/:uid', (req, res) => {
   const placeId = Number(req.params.id)
   const userUid = String(req.params.uid)
 
+  const responseObject = {
+    placeId,
+    userUid,
+  }
+
   PlaceUser.destroy({
     where: {place_id: placeId, user_uid: userUid}
   }).then(status => {
-    res.status(204).send()
+    res.send(responseObject)
   }).catch(err => {
     console.error(err)
   })
@@ -160,12 +175,17 @@ app.post('/place/:id/warning/:uid', (req, res) => {
   const userUid = String(req.params.uid)
   const message = req.body.body.message
 
+  const responseObject = {
+    placeId,
+    userUid,
+  }
+
   Warning.create({
     place_id: placeId,
     user_uid: userUid,
     message: message
   }).then(result => {
-    res.send(result)
+    res.send(responseObject)
   }).catch(err => {
     console.error(err)
   })
