@@ -10,7 +10,8 @@ User.init({
     },
     uid: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
     type: {
         type: DataTypes.STRING,

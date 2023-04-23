@@ -6,7 +6,7 @@ const port = process.env.PORT || 8000
 
 const auth = require('./src/firebase')
 
-const { sequelize, Img, Place, CoffeeshopDetail, PlaceUser, Warning } = require('./src/database')
+const { sequelize, User, Img, Place, CoffeeshopDetail, PlaceUser, Warning } = require('./src/database')
 const { Op } = require('sequelize')
 const { handleSearchString, getAddress } = require('./src/lib/common')
 
@@ -18,6 +18,26 @@ app
   const result = await auth.verifyIdToken(token)
   return result
 } */
+
+app.post('/users', async (req, res) => {
+  const email = req.body.body.email
+  const uid = req.body.body.uid
+  const type = req.body.body.type
+
+  const responseObject = {
+    userUid: uid
+  }
+
+  User.create({
+    email: email,
+    uid: uid,
+    type: type
+  }).then(result => {
+    res.send(responseObject)
+  }).catch(err => {
+    console.error(err)
+  })
+})
 
 app.get('/places/:latitude?/:longitude?/:distance?/:search?', async (req, res) => {
   const currentLatitude = Number(req.params.latitude) || null
@@ -76,7 +96,7 @@ app.get('/place/:id/img', (req, res) => {
     res.send(imgs)
   }).catch(err => {
     console.error(err)
-  });
+  })
 })
 
 app.get('/place/:id/details', (req, res) => {
@@ -89,7 +109,7 @@ app.get('/place/:id/details', (req, res) => {
     res.send(details)
   }).catch(err => {
     console.error(err)
-  });
+  })
 })
 
 app.get('/place/:id/preferences/:uid', (req, res) => {
@@ -103,7 +123,7 @@ app.get('/place/:id/preferences/:uid', (req, res) => {
     res.send(preferences)
   }).catch(err => {
     console.error(err)
-  });
+  })
 })
 
 app.post('/place/:id/preferences/:uid', (req, res) => {
