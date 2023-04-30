@@ -10,7 +10,7 @@ module.exports = {
             }
         },
         user_uid: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: false,
             references: {
                 model: 'users',
