@@ -28,7 +28,8 @@ Warning.init({
     }
 }, {
     sequelize,
-    modelName: 'Warning'
+    modelName: 'Warning',
+    tableName: 'warnings'
 })
 
 module.exports = Warning

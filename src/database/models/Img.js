@@ -11,7 +11,8 @@ Img.init({
     }
 }, {
     sequelize,
-    modelName: 'Img'
+    modelName: 'Img',
+    tableName: 'imgs'
 })
 
 Img.belongsTo(Place)

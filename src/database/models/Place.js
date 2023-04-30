@@ -42,7 +42,8 @@ Place.init({
     },
 }, {
     sequelize,
-    modelName: 'Place'
+    modelName: 'Place',
+    tableName: 'places'
 })
 
 module.exports = Place
